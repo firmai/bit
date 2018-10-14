@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Interpretable Machine Learning</title>
+  <meta name="description" content="Machine learning algorithms usually operate as black boxes and it is unclear how they derived a certain decision. This book is a guide for practitioners on how to make machine learning decisions more interpretable.">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Interpretable Machine Learning" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Machine learning algorithms usually operate as black boxes and it is unclear how they derived a certain decision. This book is a guide for practitioners on how to make machine learning decisions more interpretable." />
+  <meta name="github-repo" content="christophM/interpretable-ml-book" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Interpretable Machine Learning" />
+  
+  <meta name="twitter:description" content="Machine learning algorithms usually operate as black boxes and it is unclear how they derived a certain decision. This book is a guide for practitioners on how to make machine learning decisions more interpretable." />
+  
+
+<meta name="author" content="Christoph Molnar">
+
+
+<meta name="date" content="2018-10-14">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="interaction.html">
+<link rel="next" href="global.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-110543840-1', 'https://christophm.github.io/interpretable-ml-book/', {
+  'anonymizeIp': true
+  , 'storage': 'none'
+  , 'clientId': window.localStorage.getItem('ga_clientId')
+});
+ga(function(tracker) {
+  window.localStorage.setItem('ga_clientId', tracker.get('clientId'));
+});
+ga('send', 'pageview');
+</script>
+
+<link rel="stylesheet" type="text/css" href="css/cookieconsent.min.css" />
+<script src="javascript/cookieconsent.min.js"></script>
+<script>
+window.addEventListener("load", function(){
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#000"
+    },
+    "button": {
+      "background": "#f1d600"
+    }
+  },
+  "position": "bottom-right",
+  "content": {
+    "message": "This website uses cookies for Google Analytics so that I know how many people are reading the book and which chapters are the most popular. The book website doesn't collect any personal data."
+  }
+})});
+</script>
+
+
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Interpretable machine learning</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a><ul>
+<li class="chapter" data-level="2.1" data-path="storytime.html"><a href="storytime.html"><i class="fa fa-check"></i><b>2.1</b> Storytime</a><ul>
+<li class="chapter" data-level="" data-path="storytime.html"><a href="storytime.html#lightning-never-strikes-twice"><i class="fa fa-check"></i>Lightning Never Strikes Twice</a></li>
+<li class="chapter" data-level="" data-path="storytime.html"><a href="storytime.html#trust-fall"><i class="fa fa-check"></i>Trust Fall</a></li>
+<li class="chapter" data-level="" data-path="storytime.html"><a href="storytime.html#fermis-paperclips"><i class="fa fa-check"></i>Fermi’s Paperclips</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="what-is-machine-learning.html"><a href="what-is-machine-learning.html"><i class="fa fa-check"></i><b>2.2</b> What Is Machine Learning?</a></li>
+<li class="chapter" data-level="2.3" data-path="definitions.html"><a href="definitions.html"><i class="fa fa-check"></i><b>2.3</b> Definitions</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="interpretability.html"><a href="interpretability.html"><i class="fa fa-check"></i><b>3</b> Interpretability</a><ul>
+<li class="chapter" data-level="3.1" data-path="interpretability-importance.html"><a href="interpretability-importance.html"><i class="fa fa-check"></i><b>3.1</b> The Importance of Interpretability</a></li>
+<li class="chapter" data-level="3.2" data-path="criteria-for-interpretability-methods.html"><a href="criteria-for-interpretability-methods.html"><i class="fa fa-check"></i><b>3.2</b> Criteria for Interpretability Methods</a></li>
+<li class="chapter" data-level="3.3" data-path="scope-of-interpretability.html"><a href="scope-of-interpretability.html"><i class="fa fa-check"></i><b>3.3</b> Scope of Interpretability</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="scope-of-interpretability.html"><a href="scope-of-interpretability.html#algorithm-transparency"><i class="fa fa-check"></i><b>3.3.1</b> Algorithm transparency</a></li>
+<li class="chapter" data-level="3.3.2" data-path="scope-of-interpretability.html"><a href="scope-of-interpretability.html#global-holistic-model-interpretability"><i class="fa fa-check"></i><b>3.3.2</b> Global, Holistic Model Interpretability</a></li>
+<li class="chapter" data-level="3.3.3" data-path="scope-of-interpretability.html"><a href="scope-of-interpretability.html#global-model-interpretability-on-a-modular-level"><i class="fa fa-check"></i><b>3.3.3</b> Global Model Interpretability on a Modular Level</a></li>
+<li class="chapter" data-level="3.3.4" data-path="scope-of-interpretability.html"><a href="scope-of-interpretability.html#local-interpretability-for-a-single-prediction"><i class="fa fa-check"></i><b>3.3.4</b> Local Interpretability for a Single Prediction</a></li>
+<li class="chapter" data-level="3.3.5" data-path="scope-of-interpretability.html"><a href="scope-of-interpretability.html#local-interpretability-for-a-group-of-predictions"><i class="fa fa-check"></i><b>3.3.5</b> Local Interpretability for a Group of Predictions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="evaluating-interpretability.html"><a href="evaluating-interpretability.html"><i class="fa fa-check"></i><b>3.4</b> Evaluating Interpretability</a></li>
+<li class="chapter" data-level="3.5" data-path="explanation.html"><a href="explanation.html"><i class="fa fa-check"></i><b>3.5</b> Human-friendly Explanations</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="explanation.html"><a href="explanation.html#what-is-an-explanation"><i class="fa fa-check"></i><b>3.5.1</b> What is an explanation?</a></li>
+<li class="chapter" data-level="3.5.2" data-path="explanation.html"><a href="explanation.html#good-explanation"><i class="fa fa-check"></i><b>3.5.2</b> What is a “good” explanation?</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>4</b> Datasets</a><ul>
+<li class="chapter" data-level="4.1" data-path="bike-data.html"><a href="bike-data.html"><i class="fa fa-check"></i><b>4.1</b> Bike Sharing Counts (Regression)</a></li>
+<li class="chapter" data-level="4.2" data-path="spam-data.html"><a href="spam-data.html"><i class="fa fa-check"></i><b>4.2</b> YouTube Spam Comments (Text Classification)</a></li>
+<li class="chapter" data-level="4.3" data-path="cervical.html"><a href="cervical.html"><i class="fa fa-check"></i><b>4.3</b> Risk Factors for Cervical Cancer (Classification)</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="simple.html"><a href="simple.html"><i class="fa fa-check"></i><b>5</b> Interpretable Models</a><ul>
+<li class="chapter" data-level="5.1" data-path="limo.html"><a href="limo.html"><i class="fa fa-check"></i><b>5.1</b> Linear Model</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="limo.html"><a href="limo.html#interpretation"><i class="fa fa-check"></i><b>5.1.1</b> Interpretation</a></li>
+<li class="chapter" data-level="5.1.2" data-path="limo.html"><a href="limo.html#interpretation-example"><i class="fa fa-check"></i><b>5.1.2</b> Interpretation Example</a></li>
+<li class="chapter" data-level="5.1.3" data-path="limo.html"><a href="limo.html#interpretation-templates"><i class="fa fa-check"></i><b>5.1.3</b> Interpretation templates</a></li>
+<li class="chapter" data-level="5.1.4" data-path="limo.html"><a href="limo.html#visual-parameter-interpretation"><i class="fa fa-check"></i><b>5.1.4</b> Visual parameter interpretation</a></li>
+<li class="chapter" data-level="5.1.5" data-path="limo.html"><a href="limo.html#explaining-single-predictions"><i class="fa fa-check"></i><b>5.1.5</b> Explaining Single Predictions</a></li>
+<li class="chapter" data-level="5.1.6" data-path="limo.html"><a href="limo.html#cat-code"><i class="fa fa-check"></i><b>5.1.6</b> Coding Categorical Features</a></li>
+<li class="chapter" data-level="5.1.7" data-path="limo.html"><a href="limo.html#the-disadvantages-of-linear-models"><i class="fa fa-check"></i><b>5.1.7</b> The disadvantages of linear models</a></li>
+<li class="chapter" data-level="5.1.8" data-path="limo.html"><a href="limo.html#do-linear-models-create-good-explanations"><i class="fa fa-check"></i><b>5.1.8</b> Do linear models create good explanations?</a></li>
+<li class="chapter" data-level="5.1.9" data-path="limo.html"><a href="limo.html#extending-linear-models"><i class="fa fa-check"></i><b>5.1.9</b> Extending Linear Models</a></li>
+<li class="chapter" data-level="5.1.10" data-path="limo.html"><a href="limo.html#sparse-linear"><i class="fa fa-check"></i><b>5.1.10</b> Sparse linear models</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="logistic.html"><a href="logistic.html"><i class="fa fa-check"></i><b>5.2</b> Logistic Regression</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="logistic.html"><a href="logistic.html#whats-wrong-with-linear-regression-models-for-classification"><i class="fa fa-check"></i><b>5.2.1</b> What’s Wrong with Linear Regression Models for Classification?</a></li>
+<li class="chapter" data-level="5.2.2" data-path="logistic.html"><a href="logistic.html#logistic-regression"><i class="fa fa-check"></i><b>5.2.2</b> Logistic Regression</a></li>
+<li class="chapter" data-level="5.2.3" data-path="logistic.html"><a href="logistic.html#interpretation-1"><i class="fa fa-check"></i><b>5.2.3</b> Interpretation</a></li>
+<li class="chapter" data-level="5.2.4" data-path="logistic.html"><a href="logistic.html#example"><i class="fa fa-check"></i><b>5.2.4</b> Example</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="tree.html"><a href="tree.html"><i class="fa fa-check"></i><b>5.3</b> Decision Tree</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="tree.html"><a href="tree.html#interpretation-2"><i class="fa fa-check"></i><b>5.3.1</b> Interpretation</a></li>
+<li class="chapter" data-level="5.3.2" data-path="tree.html"><a href="tree.html#interpretation-example-1"><i class="fa fa-check"></i><b>5.3.2</b> Interpretation Example</a></li>
+<li class="chapter" data-level="5.3.3" data-path="tree.html"><a href="tree.html#advantages"><i class="fa fa-check"></i><b>5.3.3</b> Advantages</a></li>
+<li class="chapter" data-level="5.3.4" data-path="tree.html"><a href="tree.html#disadvantages"><i class="fa fa-check"></i><b>5.3.4</b> Disadvantages</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="rules.html"><a href="rules.html"><i class="fa fa-check"></i><b>5.4</b> Decision Rules (IF-THEN)</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="rules.html"><a href="rules.html#learn-rules-from-a-single-feature-oner"><i class="fa fa-check"></i><b>5.4.1</b> Learn Rules from a Single Feature (OneR)</a></li>
+<li class="chapter" data-level="5.4.2" data-path="rules.html"><a href="rules.html#sequential-covering"><i class="fa fa-check"></i><b>5.4.2</b> Sequential Covering</a></li>
+<li class="chapter" data-level="5.4.3" data-path="rules.html"><a href="rules.html#bayesian-rule-lists"><i class="fa fa-check"></i><b>5.4.3</b> Bayesian Rule Lists</a></li>
+<li class="chapter" data-level="5.4.4" data-path="rules.html"><a href="rules.html#advantages-1"><i class="fa fa-check"></i><b>5.4.4</b> Advantages</a></li>
+<li class="chapter" data-level="5.4.5" data-path="rules.html"><a href="rules.html#disadvantages-1"><i class="fa fa-check"></i><b>5.4.5</b> Disadvantages</a></li>
+<li class="chapter" data-level="5.4.6" data-path="rules.html"><a href="rules.html#software-and-alternatives"><i class="fa fa-check"></i><b>5.4.6</b> Software and Alternatives</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="rulefit.html"><a href="rulefit.html"><i class="fa fa-check"></i><b>5.5</b> RuleFit</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="rulefit.html"><a href="rulefit.html#interpretation-and-example"><i class="fa fa-check"></i><b>5.5.1</b> Interpretation and Example</a></li>
+<li class="chapter" data-level="5.5.2" data-path="rulefit.html"><a href="rulefit.html#guidelines"><i class="fa fa-check"></i><b>5.5.2</b> Guidelines</a></li>
+<li class="chapter" data-level="5.5.3" data-path="rulefit.html"><a href="rulefit.html#theory"><i class="fa fa-check"></i><b>5.5.3</b> Theory</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="other-interpretable.html"><a href="other-interpretable.html"><i class="fa fa-check"></i><b>5.6</b> Other Interpretable Models</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="other-interpretable.html"><a href="other-interpretable.html#naive-bayes-classifier"><i class="fa fa-check"></i><b>5.6.1</b> Naive Bayes classifier</a></li>
+<li class="chapter" data-level="5.6.2" data-path="other-interpretable.html"><a href="other-interpretable.html#k-nearest-neighbours"><i class="fa fa-check"></i><b>5.6.2</b> K-Nearest Neighbours</a></li>
+<li class="chapter" data-level="5.6.3" data-path="other-interpretable.html"><a href="other-interpretable.html#and-so-many-more"><i class="fa fa-check"></i><b>5.6.3</b> And so many more …</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="agnostic.html"><a href="agnostic.html"><i class="fa fa-check"></i><b>6</b> Model-Agnostic Methods</a><ul>
+<li class="chapter" data-level="6.1" data-path="pdp.html"><a href="pdp.html"><i class="fa fa-check"></i><b>6.1</b> Partial Dependence Plot (PDP)</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="pdp.html"><a href="pdp.html#examples"><i class="fa fa-check"></i><b>6.1.1</b> Examples</a></li>
+<li class="chapter" data-level="6.1.2" data-path="pdp.html"><a href="pdp.html#advantages-2"><i class="fa fa-check"></i><b>6.1.2</b> Advantages</a></li>
+<li class="chapter" data-level="6.1.3" data-path="pdp.html"><a href="pdp.html#disadvantages-2"><i class="fa fa-check"></i><b>6.1.3</b> Disadvantages</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="ice.html"><a href="ice.html"><i class="fa fa-check"></i><b>6.2</b> Individual Conditional Expectation (ICE)</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="ice.html"><a href="ice.html#example-1"><i class="fa fa-check"></i><b>6.2.1</b> Example</a></li>
+<li class="chapter" data-level="6.2.2" data-path="ice.html"><a href="ice.html#advantages-3"><i class="fa fa-check"></i><b>6.2.2</b> Advantages</a></li>
+<li class="chapter" data-level="6.2.3" data-path="ice.html"><a href="ice.html#disadvantages-3"><i class="fa fa-check"></i><b>6.2.3</b> Disadvantages</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="ale.html"><a href="ale.html"><i class="fa fa-check"></i><b>6.3</b> Accumulated Local Effects (ALE) Plot</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="ale.html"><a href="ale.html#motivation-and-intuition"><i class="fa fa-check"></i><b>6.3.1</b> Motivation and Intuition</a></li>
+<li class="chapter" data-level="6.3.2" data-path="ale.html"><a href="ale.html#theory-1"><i class="fa fa-check"></i><b>6.3.2</b> Theory</a></li>
+<li class="chapter" data-level="6.3.3" data-path="ale.html"><a href="ale.html#estimation"><i class="fa fa-check"></i><b>6.3.3</b> Estimation</a></li>
+<li class="chapter" data-level="6.3.4" data-path="ale.html"><a href="ale.html#examples-1"><i class="fa fa-check"></i><b>6.3.4</b> Examples</a></li>
+<li class="chapter" data-level="6.3.5" data-path="ale.html"><a href="ale.html#advantages-4"><i class="fa fa-check"></i><b>6.3.5</b> Advantages</a></li>
+<li class="chapter" data-level="6.3.6" data-path="ale.html"><a href="ale.html#disadvantages-4"><i class="fa fa-check"></i><b>6.3.6</b> Disadvantages</a></li>
+<li class="chapter" data-level="6.3.7" data-path="ale.html"><a href="ale.html#implementation-and-alternatives"><i class="fa fa-check"></i><b>6.3.7</b> Implementation and Alternatives</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="interaction.html"><a href="interaction.html"><i class="fa fa-check"></i><b>6.4</b> Feature Interaction</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="interaction.html"><a href="interaction.html#feature-interaction"><i class="fa fa-check"></i><b>6.4.1</b> Feature Interaction?</a></li>
+<li class="chapter" data-level="6.4.2" data-path="interaction.html"><a href="interaction.html#theory-friedmans-h-statistic"><i class="fa fa-check"></i><b>6.4.2</b> Theory: Friedman’s H-statistic</a></li>
+<li class="chapter" data-level="6.4.3" data-path="interaction.html"><a href="interaction.html#examples-2"><i class="fa fa-check"></i><b>6.4.3</b> Examples</a></li>
+<li class="chapter" data-level="6.4.4" data-path="interaction.html"><a href="interaction.html#advantages-5"><i class="fa fa-check"></i><b>6.4.4</b> Advantages</a></li>
+<li class="chapter" data-level="6.4.5" data-path="interaction.html"><a href="interaction.html#disadvantages-5"><i class="fa fa-check"></i><b>6.4.5</b> Disadvantages</a></li>
+<li class="chapter" data-level="6.4.6" data-path="interaction.html"><a href="interaction.html#implementations"><i class="fa fa-check"></i><b>6.4.6</b> Implementations</a></li>
+<li class="chapter" data-level="6.4.7" data-path="interaction.html"><a href="interaction.html#alternatives"><i class="fa fa-check"></i><b>6.4.7</b> Alternatives</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="feature-importance.html"><a href="feature-importance.html"><i class="fa fa-check"></i><b>6.5</b> Feature Importance</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="feature-importance.html"><a href="feature-importance.html#the-theory"><i class="fa fa-check"></i><b>6.5.1</b> The Theory</a></li>
+<li class="chapter" data-level="6.5.2" data-path="feature-importance.html"><a href="feature-importance.html#example-and-interpretation"><i class="fa fa-check"></i><b>6.5.2</b> Example and Interpretation</a></li>
+<li class="chapter" data-level="6.5.3" data-path="feature-importance.html"><a href="feature-importance.html#advantages-6"><i class="fa fa-check"></i><b>6.5.3</b> Advantages</a></li>
+<li class="chapter" data-level="6.5.4" data-path="feature-importance.html"><a href="feature-importance.html#disadvantages-6"><i class="fa fa-check"></i><b>6.5.4</b> Disadvantages</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="global.html"><a href="global.html"><i class="fa fa-check"></i><b>6.6</b> Global Surrogate Models</a><ul>
+<li class="chapter" data-level="6.6.1" data-path="global.html"><a href="global.html#theory-2"><i class="fa fa-check"></i><b>6.6.1</b> Theory</a></li>
+<li class="chapter" data-level="6.6.2" data-path="global.html"><a href="global.html#example-3"><i class="fa fa-check"></i><b>6.6.2</b> Example</a></li>
+<li class="chapter" data-level="6.6.3" data-path="global.html"><a href="global.html#advantages-7"><i class="fa fa-check"></i><b>6.6.3</b> Advantages</a></li>
+<li class="chapter" data-level="6.6.4" data-path="global.html"><a href="global.html#disadvantages-7"><i class="fa fa-check"></i><b>6.6.4</b> Disadvantages</a></li>
+</ul></li>
+<li class="chapter" data-level="6.7" data-path="lime.html"><a href="lime.html"><i class="fa fa-check"></i><b>6.7</b> Local Surrogate Models (LIME)</a><ul>
+<li class="chapter" data-level="6.7.1" data-path="lime.html"><a href="lime.html#lime-for-tabular-data"><i class="fa fa-check"></i><b>6.7.1</b> LIME for Tabular Data</a></li>
+<li class="chapter" data-level="6.7.2" data-path="lime.html"><a href="lime.html#lime-for-text"><i class="fa fa-check"></i><b>6.7.2</b> LIME for Text</a></li>
+<li class="chapter" data-level="6.7.3" data-path="lime.html"><a href="lime.html#images-lime"><i class="fa fa-check"></i><b>6.7.3</b> LIME for Images</a></li>
+</ul></li>
+<li class="chapter" data-level="6.8" data-path="shapley.html"><a href="shapley.html"><i class="fa fa-check"></i><b>6.8</b> Shapley Value Explanations</a><ul>
+<li class="chapter" data-level="6.8.1" data-path="shapley.html"><a href="shapley.html#the-general-idea"><i class="fa fa-check"></i><b>6.8.1</b> The general idea</a></li>
+<li class="chapter" data-level="6.8.2" data-path="shapley.html"><a href="shapley.html#examples-and-interpretation"><i class="fa fa-check"></i><b>6.8.2</b> Examples and Interpretation</a></li>
+<li class="chapter" data-level="6.8.3" data-path="shapley.html"><a href="shapley.html#the-shapley-value-in-detail"><i class="fa fa-check"></i><b>6.8.3</b> The Shapley Value in Detail</a></li>
+<li class="chapter" data-level="6.8.4" data-path="shapley.html"><a href="shapley.html#advantages-8"><i class="fa fa-check"></i><b>6.8.4</b> Advantages</a></li>
+<li class="chapter" data-level="6.8.5" data-path="shapley.html"><a href="shapley.html#disadvantages-8"><i class="fa fa-check"></i><b>6.8.5</b> Disadvantages</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="example-based.html"><a href="example-based.html"><i class="fa fa-check"></i><b>7</b> Example-based Explanations</a><ul>
+<li class="chapter" data-level="7.1" data-path="counterfactual.html"><a href="counterfactual.html"><i class="fa fa-check"></i><b>7.1</b> Counterfactual explanations</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="counterfactual.html"><a href="counterfactual.html#generating-counterfactual-explanations"><i class="fa fa-check"></i><b>7.1.1</b> Generating counterfactual explanations</a></li>
+<li class="chapter" data-level="7.1.2" data-path="counterfactual.html"><a href="counterfactual.html#examples-3"><i class="fa fa-check"></i><b>7.1.2</b> Examples</a></li>
+<li class="chapter" data-level="7.1.3" data-path="counterfactual.html"><a href="counterfactual.html#advantages-9"><i class="fa fa-check"></i><b>7.1.3</b> Advantages</a></li>
+<li class="chapter" data-level="7.1.4" data-path="counterfactual.html"><a href="counterfactual.html#disadvantages-9"><i class="fa fa-check"></i><b>7.1.4</b> Disadvantages</a></li>
+<li class="chapter" data-level="7.1.5" data-path="counterfactual.html"><a href="counterfactual.html#example-software"><i class="fa fa-check"></i><b>7.1.5</b> Software and Alternatives</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="adversarial.html"><a href="adversarial.html"><i class="fa fa-check"></i><b>7.2</b> Adversarial Examples</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="adversarial.html"><a href="adversarial.html#methods-and-examples"><i class="fa fa-check"></i><b>7.2.1</b> Methods and Examples</a></li>
+<li class="chapter" data-level="7.2.2" data-path="adversarial.html"><a href="adversarial.html#the-cybersecurity-perspective"><i class="fa fa-check"></i><b>7.2.2</b> The Cybersecurity Perspective</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="proto.html"><a href="proto.html"><i class="fa fa-check"></i><b>7.3</b> Prototypes and Criticisms</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="proto.html"><a href="proto.html#theory-3"><i class="fa fa-check"></i><b>7.3.1</b> Theory</a></li>
+<li class="chapter" data-level="7.3.2" data-path="proto.html"><a href="proto.html#examples-4"><i class="fa fa-check"></i><b>7.3.2</b> Examples</a></li>
+<li class="chapter" data-level="7.3.3" data-path="proto.html"><a href="proto.html#advantages-10"><i class="fa fa-check"></i><b>7.3.3</b> Advantages</a></li>
+<li class="chapter" data-level="7.3.4" data-path="proto.html"><a href="proto.html#disadvantages-10"><i class="fa fa-check"></i><b>7.3.4</b> Disadvantages</a></li>
+<li class="chapter" data-level="7.3.5" data-path="proto.html"><a href="proto.html#code-and-alternatives"><i class="fa fa-check"></i><b>7.3.5</b> Code and Alternatives</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="influential.html"><a href="influential.html"><i class="fa fa-check"></i><b>7.4</b> Influential Instances</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="influential.html"><a href="influential.html#deletion-diagnostics"><i class="fa fa-check"></i><b>7.4.1</b> Deletion Diagnostics</a></li>
+<li class="chapter" data-level="7.4.2" data-path="influential.html"><a href="influential.html#influence-functions"><i class="fa fa-check"></i><b>7.4.2</b> Influence Functions</a></li>
+<li class="chapter" data-level="7.4.3" data-path="influential.html"><a href="influential.html#advantages-of-identifying-influential-instances"><i class="fa fa-check"></i><b>7.4.3</b> Advantages of Identifying Influential Instances</a></li>
+<li class="chapter" data-level="7.4.4" data-path="influential.html"><a href="influential.html#disadvantages-of-identifying-influential-instances"><i class="fa fa-check"></i><b>7.4.4</b> Disadvantages of Identifying Influential Instances</a></li>
+<li class="chapter" data-level="7.4.5" data-path="influential.html"><a href="influential.html#software-and-alternatives-1"><i class="fa fa-check"></i><b>7.4.5</b> Software and Alternatives</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="future.html"><a href="future.html"><i class="fa fa-check"></i><b>8</b> A Look into the Crystal Ball</a><ul>
+<li class="chapter" data-level="8.1" data-path="the-future-of-machine-learning.html"><a href="the-future-of-machine-learning.html"><i class="fa fa-check"></i><b>8.1</b> The Future of Machine Learning</a></li>
+<li class="chapter" data-level="8.2" data-path="the-future-of-interpretability.html"><a href="the-future-of-interpretability.html"><i class="fa fa-check"></i><b>8.2</b> The Future of Interpretability</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="contribute.html"><a href="contribute.html"><i class="fa fa-check"></i><b>9</b> Contribute</a></li>
+<li class="chapter" data-level="10" data-path="citation.html"><a href="citation.html"><i class="fa fa-check"></i><b>10</b> Citation</a></li>
+<li class="chapter" data-level="11" data-path="acknowledgements.html"><a href="acknowledgements.html"><i class="fa fa-check"></i><b>11</b> Acknowledgements</a></li>
+<li class="divider"></li>
+<li><a href="https://bookdown.org" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Interpretable Machine Learning</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="feature-importance" class="section level2">
+<h2><span class="header-section-number">6.5</span> Feature Importance</h2>
+<p>A feature’s importance is the increase in the model’s prediction error after we permuted the feature’s values (breaks the relationship between the feature and the outcome).</p>
+<div id="the-theory" class="section level3">
+<h3><span class="header-section-number">6.5.1</span> The Theory</h3>
+<p>The concept is really straightforward:
+We measure a feature’s importance by calculating the increase of the model’s prediction error after permuting the feature.
+A feature is “important” if permuting its values increases the model error, because the model relied on the feature for the prediction.
+A feature is “unimportant” if permuting its values keeps the model error unchanged, because the model ignored the feature for the prediction.
+The permutation feature importance measurement was introduced for Random Forests by Breiman (2001)<a href="#fn29" class="footnote-ref" id="fnref29"><sup>29</sup></a>.
+Based on this idea, Fisher, Rudin, and Dominici (2018)<a href="#fn30" class="footnote-ref" id="fnref30"><sup>30</sup></a> proposed a model-agnostic version of the feature importance - they called it model reliance.
+They also introduce more advanced ideas about feature importance, for example a (model-specific) version that accounts for the fact that many prediction models may fit the data well.
+Their paper is worth a read.</p>
+<p><strong>The permutation feature importance algorithm based on Breiman (2001) and Fisher, Rudin, and Dominici (2018):</strong></p>
+<p>Input: Trained model <span class="math inline">\(\hat{f}\)</span>, feature matrix <span class="math inline">\(X\)</span>, target vector <span class="math inline">\(Y\)</span>, error measure <span class="math inline">\(L(Y,\hat{Y})\)</span></p>
+<ol style="list-style-type: decimal">
+<li>Estimate the original model error <span class="math inline">\(e_{orig}(\hat{f})=L(Y,\hat{f}(X))\)</span> (e.g. mean squared error)</li>
+<li>For each feature <span class="math inline">\(j\in1,\ldots,p\)</span> do
+<ul>
+<li>Generate feature matrix <span class="math inline">\(X_{perm_{j}}\)</span> by permuting feature <span class="math inline">\(X_j\)</span> in <span class="math inline">\(X\)</span>. This breaks the association between <span class="math inline">\(X_j\)</span> and <span class="math inline">\(Y\)</span>.</li>
+<li>Estimate error <span class="math inline">\(e_{perm}=L(Y,\hat{f}(X_{perm_j}))\)</span> based on the predictions of the permuted data.</li>
+<li>Calculate permutation feature importance <span class="math inline">\(FI_j=e_{perm}(\hat{f})/e_{orig}(\hat{f})\)</span>. Alternatively, the difference can be used: <span class="math inline">\(FI_j=e_{perm}(\hat{f})-e_{orig}(\hat{f})\)</span></li>
+</ul></li>
+<li>Sort variables by descending <span class="math inline">\(FI\)</span>.</li>
+</ol>
+<p>In their paper, Fisher, Rudin, and Dominici (2018) propose to split the dataset in half and exchange the <span class="math inline">\(X_j\)</span> values of the two halves instead of permuting <span class="math inline">\(X_j\)</span>.
+This is exactly the same as permuting the feature <span class="math inline">\(X_j\)</span> if you think about it.
+If you want to have a more accurate estimate, you can estimate the error of permuting <span class="math inline">\(X_j\)</span> by pairing each instance with the <span class="math inline">\(X_j\)</span> value of each other instance (except with itself).
+This gives you a dataset of size <span class="math inline">\(n(n-1)\)</span> to estimate the permutation error and it takes a big amount of computation time.
+I can only recommend using the <span class="math inline">\(n(n-1)\)</span> - method when you are serious about getting extremely accurate estimates.</p>
+</div>
+<div id="example-and-interpretation" class="section level3">
+<h3><span class="header-section-number">6.5.2</span> Example and Interpretation</h3>
+<p>We show examples for classification and regression.</p>
+<p><strong>Cervical cancer (Classification)</strong></p>
+<p>We fit a random forest model to predict <a href="cervical.html#cervical">cervical cancer</a>.
+We measure the error increase by: <span class="math inline">\(1-AUC\)</span> (one minus the area under the ROC curve).
+Features that are associated model error increase by a factor of 1 (= no change) were not important for predicting cervical cancer.</p>
+<div class="figure"><span id="fig:importance-cervical"></span>
+<img src="images/importance-cervical-1.png" alt="The importance for each of the features in predicting cervical cancer with a random forest. The importance is the factor by which the error is increased compared to the original model error." width="1050" />
+<p class="caption">
+FIGURE 6.26: The importance for each of the features in predicting cervical cancer with a random forest. The importance is the factor by which the error is increased compared to the original model error.
+</p>
+</div>
+<p>The feature with the highest importance was associated with an error increase of 7.8 after permutation.</p>
+<p><strong>Bike sharing (Regression)</strong></p>
+<p>We fit a support vector machine model to predict <a href="bike-data.html#bike-data">the number of rented bikes</a>, given weather conditions and calendric information.
+As error measurement we use the mean absolute error.</p>
+<div class="figure"><span id="fig:importance-bike"></span>
+<img src="images/importance-bike-1.png" alt="The importance for each of the features in predicting bike counts with a support vector machine." width="1050" />
+<p class="caption">
+FIGURE 6.27: The importance for each of the features in predicting bike counts with a support vector machine.
+</p>
+</div>
+</div>
+<div id="advantages-6" class="section level3">
+<h3><span class="header-section-number">6.5.3</span> Advantages</h3>
+<ul>
+<li>Nice interpretation: Feature importance is the increase of model error when the feature’s information is destroyed.</li>
+<li>Feature importance provides a highly compressed, global insight into the model’s behavior.</li>
+<li>A positive aspect of using the error ratio instead of the error difference is that the feature importance measurements are comparable across different problems.</li>
+<li>The importance measure automatically takes into account all interactions with other features.
+By permuting the feature you also destroy the interaction effects with other features.
+This means that the permutation feature importance measure regards both the feature main effect and the interaction effects on the model performance.
+This is also a disadvantage because the importance of the interaction between two features will be included in the importance measures of both features.
+This means that the feature importances don’t add up to the total drop in performance, would we shuffle all the features, but they are greater than that.
+Only when there is no interaction between the features, like in a linear model, the importances would roughly add up.</li>
+<li>Permutation feature importance doesn’t require retraining the model like.
+Some other methods suggest to delete a feature, retrain the model and then compare the model error.
+Since retraining a machine learning model can take a long time, ‘only’ permuting a feature can safe lots of time.</li>
+<li>Importance methods that retrain the model with a subset of the features seem intuitive at first glance, but the model with the reduced data is meaningless for the feature importance.
+We are interested in the feature importance of a fixed model, and when I say fixed, I also mean that the features have to be used.
+Retraining with a reduced dataset creates a different model from the one we are interested in.
+Let’s say you train a sparse linear model (with LASSO) with a fixed amount of features with a non-zero weight.
+The dataset has 100 features, you set the number of non-zero weights to 5.
+You analyze the importance of one of the features that got a non-zero weight.
+You remove the feature and retrain the model.
+The model performance stays the same, because now another equally good feature gets a non-zero weight and your conclusion would be that the feature was not important.
+Another example: the model is a decision tree and we analyze the importance of the feature that was chose as the first split.
+We remove the feature and retrain the model.
+Since another feature will be chosen as the first split, the whole tree can be very different, meaning that we compare the error rates of (potentially) completely different trees to decide how important that feature is.</li>
+</ul>
+</div>
+<div id="disadvantages-6" class="section level3">
+<h3><span class="header-section-number">6.5.4</span> Disadvantages</h3>
+<ul>
+<li>The feature importance measure is tied to the error of the model.
+This is not inherently bad, but in some cases not what you need.
+In some cases you would prefer to know how much the model’s output varies for one feature, ignoring what it means for the performance.
+For example: You want to find out how robust your model’s output is, given someone manipulates the features.
+In this case, you wouldn’t be interested in how much the model performance drops given the permutation of a feature, but rather how much of the model’s output variance is explained by each feature.
+Model variance (explained by the features) and feature importance correlate strongly when the model generalizes well (i.e. it doesn’t overfit).</li>
+<li>You need access to the actual outcome target.
+If someone only gives you the model and unlabeled data - but not the actual target - you can’t compute the permutation feature importance.</li>
+<li>The permutation feature importance measure depends on shuffling the feature, which adds randomness to the importance measure.
+When the permutation is repeated, the results might differ.
+Repeating the permutation and averaging the importance measures over repetitions stabilizes the measure, but increases the time of computation.</li>
+<li>When features are correlated, the permutation feature importance measure can be biased by unrealistic data instances.
+The problem is the same as for <a href="pdp.html#pdp">partial dependence plots</a>:
+The permutation of features generates unlikely data instances when two features are correlated.
+When they are positively correlated (like height and weight of a person) and I shuffle one of the features, then I create new instances that are unlikely or even physically impossible (2m person weighting 30kg for example), yet I use those new instances to measure the importance.
+In other words, for the permutation feature importance of a correlated feature we consider how much the model performance drops when we exchange the feature with values that we would never observe in reality.
+Check if the features are strongly correlated and be careful with the interpretation of the feature importance when they are.</li>
+<li>Another tricky thing: Adding a correlated feature can decrease the importance of the associated feature, by splitting up the importance of both features.
+Let me explain with an example what I mean by “splitting up” the feature importance:
+We want to predict the probability of rain and use the temperature at 8:00 AM of the day before as a feature together with other uncorrelated features.
+I fit a random forest and it turns out the temperature is the most important feature and all is good and I sleep well the next night.
+Now imagine another scenario in which I additionally include the temperature at 9:00 AM as a feature, which is highly correlated with the temperature at 8:00 AM.
+The temperature at 9:00 AM doesn’t give me much additional information, when I already know the temperature at 8:00 AM.
+But having more features is always good, right?
+I fit a random forest with the two temperature features and the uncorrelated features.
+Some of the trees in the random forest pick up the 8:00 AM temperature, some the 9:00 AM temperature, some both and some none.
+The two temperature features together have a bit more importance than the single temperature feature before, but instead of being on the top of the list of the important features, each temperature is now somewhere in the middle.
+By introducing a correlated feature, I kicked the most important feature from the top of the importance ladder to mediocrity.
+On one hand, that’s okay, because it simply reflects the behaviour of the underlying machine learning model, here the random forest.
+The 8:00 AM temperature simply has become less important, because the model can now rely on the 9:00 AM measure as well.
+On the other hand, it makes the interpretation of the feature importances way more difficult.
+Imagine that you want to check the features for measurement errors.
+The check is expensive and you decide to only check the top 3 most important features.
+In the first case you would check the temperature, in the second case you would not include any temperature feature, simply because they now share the importance.
+Even though the importance measure might make sense on the model behaviour level, it’s damn confusing if you have correlated features.</li>
+</ul>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="29">
+<li id="fn29"><p>Breiman, Leo. 2001. “Random Forests.” Machine Learning 45 (1). Springer: 5–32.<a href="feature-importance.html#fnref29" class="footnote-back">↩</a></p></li>
+<li id="fn30"><p>Fisher, Aaron, Cynthia Rudin, and Francesca Dominici. 2018. “Model Class Reliance: Variable Importance Measures for any Machine Learning Model Class, from the ‘Rashomon’ Perspective.” <a href="http://arxiv.org/abs/1801.01489" class="uri">http://arxiv.org/abs/1801.01489</a>.<a href="feature-importance.html#fnref30" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="interaction.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="global.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/christophM/interpretable-ml-book/edit/master/05.6-agnostic-permfeatimp.Rmd",
+"text": "Edit"
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

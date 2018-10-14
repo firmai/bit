@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Interpretable Machine Learning</title>
+  <meta name="description" content="Machine learning algorithms usually operate as black boxes and it is unclear how they derived a certain decision. This book is a guide for practitioners on how to make machine learning decisions more interpretable.">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Interpretable Machine Learning" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Machine learning algorithms usually operate as black boxes and it is unclear how they derived a certain decision. This book is a guide for practitioners on how to make machine learning decisions more interpretable." />
+  <meta name="github-repo" content="christophM/interpretable-ml-book" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Interpretable Machine Learning" />
+  
+  <meta name="twitter:description" content="Machine learning algorithms usually operate as black boxes and it is unclear how they derived a certain decision. This book is a guide for practitioners on how to make machine learning decisions more interpretable." />
+  
+
+<meta name="author" content="Christoph Molnar">
+
+
+<meta name="date" content="2018-10-14">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="interpretability.html">
+<link rel="next" href="criteria-for-interpretability-methods.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-110543840-1', 'https://christophm.github.io/interpretable-ml-book/', {
+  'anonymizeIp': true
+  , 'storage': 'none'
+  , 'clientId': window.localStorage.getItem('ga_clientId')
+});
+ga(function(tracker) {
+  window.localStorage.setItem('ga_clientId', tracker.get('clientId'));
+});
+ga('send', 'pageview');
+</script>
+
+<link rel="stylesheet" type="text/css" href="css/cookieconsent.min.css" />
+<script src="javascript/cookieconsent.min.js"></script>
+<script>
+window.addEventListener("load", function(){
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#000"
+    },
+    "button": {
+      "background": "#f1d600"
+    }
+  },
+  "position": "bottom-right",
+  "content": {
+    "message": "This website uses cookies for Google Analytics so that I know how many people are reading the book and which chapters are the most popular. The book website doesn't collect any personal data."
+  }
+})});
+</script>
+
+
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Interpretable machine learning</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a><ul>
+<li class="chapter" data-level="2.1" data-path="storytime.html"><a href="storytime.html"><i class="fa fa-check"></i><b>2.1</b> Storytime</a><ul>
+<li class="chapter" data-level="" data-path="storytime.html"><a href="storytime.html#lightning-never-strikes-twice"><i class="fa fa-check"></i>Lightning Never Strikes Twice</a></li>
+<li class="chapter" data-level="" data-path="storytime.html"><a href="storytime.html#trust-fall"><i class="fa fa-check"></i>Trust Fall</a></li>
+<li class="chapter" data-level="" data-path="storytime.html"><a href="storytime.html#fermis-paperclips"><i class="fa fa-check"></i>Fermi’s Paperclips</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="what-is-machine-learning.html"><a href="what-is-machine-learning.html"><i class="fa fa-check"></i><b>2.2</b> What Is Machine Learning?</a></li>
+<li class="chapter" data-level="2.3" data-path="definitions.html"><a href="definitions.html"><i class="fa fa-check"></i><b>2.3</b> Definitions</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="interpretability.html"><a href="interpretability.html"><i class="fa fa-check"></i><b>3</b> Interpretability</a><ul>
+<li class="chapter" data-level="3.1" data-path="interpretability-importance.html"><a href="interpretability-importance.html"><i class="fa fa-check"></i><b>3.1</b> The Importance of Interpretability</a></li>
+<li class="chapter" data-level="3.2" data-path="criteria-for-interpretability-methods.html"><a href="criteria-for-interpretability-methods.html"><i class="fa fa-check"></i><b>3.2</b> Criteria for Interpretability Methods</a></li>
+<li class="chapter" data-level="3.3" data-path="scope-of-interpretability.html"><a href="scope-of-interpretability.html"><i class="fa fa-check"></i><b>3.3</b> Scope of Interpretability</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="scope-of-interpretability.html"><a href="scope-of-interpretability.html#algorithm-transparency"><i class="fa fa-check"></i><b>3.3.1</b> Algorithm transparency</a></li>
+<li class="chapter" data-level="3.3.2" data-path="scope-of-interpretability.html"><a href="scope-of-interpretability.html#global-holistic-model-interpretability"><i class="fa fa-check"></i><b>3.3.2</b> Global, Holistic Model Interpretability</a></li>
+<li class="chapter" data-level="3.3.3" data-path="scope-of-interpretability.html"><a href="scope-of-interpretability.html#global-model-interpretability-on-a-modular-level"><i class="fa fa-check"></i><b>3.3.3</b> Global Model Interpretability on a Modular Level</a></li>
+<li class="chapter" data-level="3.3.4" data-path="scope-of-interpretability.html"><a href="scope-of-interpretability.html#local-interpretability-for-a-single-prediction"><i class="fa fa-check"></i><b>3.3.4</b> Local Interpretability for a Single Prediction</a></li>
+<li class="chapter" data-level="3.3.5" data-path="scope-of-interpretability.html"><a href="scope-of-interpretability.html#local-interpretability-for-a-group-of-predictions"><i class="fa fa-check"></i><b>3.3.5</b> Local Interpretability for a Group of Predictions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="evaluating-interpretability.html"><a href="evaluating-interpretability.html"><i class="fa fa-check"></i><b>3.4</b> Evaluating Interpretability</a></li>
+<li class="chapter" data-level="3.5" data-path="explanation.html"><a href="explanation.html"><i class="fa fa-check"></i><b>3.5</b> Human-friendly Explanations</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="explanation.html"><a href="explanation.html#what-is-an-explanation"><i class="fa fa-check"></i><b>3.5.1</b> What is an explanation?</a></li>
+<li class="chapter" data-level="3.5.2" data-path="explanation.html"><a href="explanation.html#good-explanation"><i class="fa fa-check"></i><b>3.5.2</b> What is a “good” explanation?</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>4</b> Datasets</a><ul>
+<li class="chapter" data-level="4.1" data-path="bike-data.html"><a href="bike-data.html"><i class="fa fa-check"></i><b>4.1</b> Bike Sharing Counts (Regression)</a></li>
+<li class="chapter" data-level="4.2" data-path="spam-data.html"><a href="spam-data.html"><i class="fa fa-check"></i><b>4.2</b> YouTube Spam Comments (Text Classification)</a></li>
+<li class="chapter" data-level="4.3" data-path="cervical.html"><a href="cervical.html"><i class="fa fa-check"></i><b>4.3</b> Risk Factors for Cervical Cancer (Classification)</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="simple.html"><a href="simple.html"><i class="fa fa-check"></i><b>5</b> Interpretable Models</a><ul>
+<li class="chapter" data-level="5.1" data-path="limo.html"><a href="limo.html"><i class="fa fa-check"></i><b>5.1</b> Linear Model</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="limo.html"><a href="limo.html#interpretation"><i class="fa fa-check"></i><b>5.1.1</b> Interpretation</a></li>
+<li class="chapter" data-level="5.1.2" data-path="limo.html"><a href="limo.html#interpretation-example"><i class="fa fa-check"></i><b>5.1.2</b> Interpretation Example</a></li>
+<li class="chapter" data-level="5.1.3" data-path="limo.html"><a href="limo.html#interpretation-templates"><i class="fa fa-check"></i><b>5.1.3</b> Interpretation templates</a></li>
+<li class="chapter" data-level="5.1.4" data-path="limo.html"><a href="limo.html#visual-parameter-interpretation"><i class="fa fa-check"></i><b>5.1.4</b> Visual parameter interpretation</a></li>
+<li class="chapter" data-level="5.1.5" data-path="limo.html"><a href="limo.html#explaining-single-predictions"><i class="fa fa-check"></i><b>5.1.5</b> Explaining Single Predictions</a></li>
+<li class="chapter" data-level="5.1.6" data-path="limo.html"><a href="limo.html#cat-code"><i class="fa fa-check"></i><b>5.1.6</b> Coding Categorical Features</a></li>
+<li class="chapter" data-level="5.1.7" data-path="limo.html"><a href="limo.html#the-disadvantages-of-linear-models"><i class="fa fa-check"></i><b>5.1.7</b> The disadvantages of linear models</a></li>
+<li class="chapter" data-level="5.1.8" data-path="limo.html"><a href="limo.html#do-linear-models-create-good-explanations"><i class="fa fa-check"></i><b>5.1.8</b> Do linear models create good explanations?</a></li>
+<li class="chapter" data-level="5.1.9" data-path="limo.html"><a href="limo.html#extending-linear-models"><i class="fa fa-check"></i><b>5.1.9</b> Extending Linear Models</a></li>
+<li class="chapter" data-level="5.1.10" data-path="limo.html"><a href="limo.html#sparse-linear"><i class="fa fa-check"></i><b>5.1.10</b> Sparse linear models</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="logistic.html"><a href="logistic.html"><i class="fa fa-check"></i><b>5.2</b> Logistic Regression</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="logistic.html"><a href="logistic.html#whats-wrong-with-linear-regression-models-for-classification"><i class="fa fa-check"></i><b>5.2.1</b> What’s Wrong with Linear Regression Models for Classification?</a></li>
+<li class="chapter" data-level="5.2.2" data-path="logistic.html"><a href="logistic.html#logistic-regression"><i class="fa fa-check"></i><b>5.2.2</b> Logistic Regression</a></li>
+<li class="chapter" data-level="5.2.3" data-path="logistic.html"><a href="logistic.html#interpretation-1"><i class="fa fa-check"></i><b>5.2.3</b> Interpretation</a></li>
+<li class="chapter" data-level="5.2.4" data-path="logistic.html"><a href="logistic.html#example"><i class="fa fa-check"></i><b>5.2.4</b> Example</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="tree.html"><a href="tree.html"><i class="fa fa-check"></i><b>5.3</b> Decision Tree</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="tree.html"><a href="tree.html#interpretation-2"><i class="fa fa-check"></i><b>5.3.1</b> Interpretation</a></li>
+<li class="chapter" data-level="5.3.2" data-path="tree.html"><a href="tree.html#interpretation-example-1"><i class="fa fa-check"></i><b>5.3.2</b> Interpretation Example</a></li>
+<li class="chapter" data-level="5.3.3" data-path="tree.html"><a href="tree.html#advantages"><i class="fa fa-check"></i><b>5.3.3</b> Advantages</a></li>
+<li class="chapter" data-level="5.3.4" data-path="tree.html"><a href="tree.html#disadvantages"><i class="fa fa-check"></i><b>5.3.4</b> Disadvantages</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="rules.html"><a href="rules.html"><i class="fa fa-check"></i><b>5.4</b> Decision Rules (IF-THEN)</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="rules.html"><a href="rules.html#learn-rules-from-a-single-feature-oner"><i class="fa fa-check"></i><b>5.4.1</b> Learn Rules from a Single Feature (OneR)</a></li>
+<li class="chapter" data-level="5.4.2" data-path="rules.html"><a href="rules.html#sequential-covering"><i class="fa fa-check"></i><b>5.4.2</b> Sequential Covering</a></li>
+<li class="chapter" data-level="5.4.3" data-path="rules.html"><a href="rules.html#bayesian-rule-lists"><i class="fa fa-check"></i><b>5.4.3</b> Bayesian Rule Lists</a></li>
+<li class="chapter" data-level="5.4.4" data-path="rules.html"><a href="rules.html#advantages-1"><i class="fa fa-check"></i><b>5.4.4</b> Advantages</a></li>
+<li class="chapter" data-level="5.4.5" data-path="rules.html"><a href="rules.html#disadvantages-1"><i class="fa fa-check"></i><b>5.4.5</b> Disadvantages</a></li>
+<li class="chapter" data-level="5.4.6" data-path="rules.html"><a href="rules.html#software-and-alternatives"><i class="fa fa-check"></i><b>5.4.6</b> Software and Alternatives</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="rulefit.html"><a href="rulefit.html"><i class="fa fa-check"></i><b>5.5</b> RuleFit</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="rulefit.html"><a href="rulefit.html#interpretation-and-example"><i class="fa fa-check"></i><b>5.5.1</b> Interpretation and Example</a></li>
+<li class="chapter" data-level="5.5.2" data-path="rulefit.html"><a href="rulefit.html#guidelines"><i class="fa fa-check"></i><b>5.5.2</b> Guidelines</a></li>
+<li class="chapter" data-level="5.5.3" data-path="rulefit.html"><a href="rulefit.html#theory"><i class="fa fa-check"></i><b>5.5.3</b> Theory</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="other-interpretable.html"><a href="other-interpretable.html"><i class="fa fa-check"></i><b>5.6</b> Other Interpretable Models</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="other-interpretable.html"><a href="other-interpretable.html#naive-bayes-classifier"><i class="fa fa-check"></i><b>5.6.1</b> Naive Bayes classifier</a></li>
+<li class="chapter" data-level="5.6.2" data-path="other-interpretable.html"><a href="other-interpretable.html#k-nearest-neighbours"><i class="fa fa-check"></i><b>5.6.2</b> K-Nearest Neighbours</a></li>
+<li class="chapter" data-level="5.6.3" data-path="other-interpretable.html"><a href="other-interpretable.html#and-so-many-more"><i class="fa fa-check"></i><b>5.6.3</b> And so many more …</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="agnostic.html"><a href="agnostic.html"><i class="fa fa-check"></i><b>6</b> Model-Agnostic Methods</a><ul>
+<li class="chapter" data-level="6.1" data-path="pdp.html"><a href="pdp.html"><i class="fa fa-check"></i><b>6.1</b> Partial Dependence Plot (PDP)</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="pdp.html"><a href="pdp.html#examples"><i class="fa fa-check"></i><b>6.1.1</b> Examples</a></li>
+<li class="chapter" data-level="6.1.2" data-path="pdp.html"><a href="pdp.html#advantages-2"><i class="fa fa-check"></i><b>6.1.2</b> Advantages</a></li>
+<li class="chapter" data-level="6.1.3" data-path="pdp.html"><a href="pdp.html#disadvantages-2"><i class="fa fa-check"></i><b>6.1.3</b> Disadvantages</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="ice.html"><a href="ice.html"><i class="fa fa-check"></i><b>6.2</b> Individual Conditional Expectation (ICE)</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="ice.html"><a href="ice.html#example-1"><i class="fa fa-check"></i><b>6.2.1</b> Example</a></li>
+<li class="chapter" data-level="6.2.2" data-path="ice.html"><a href="ice.html#advantages-3"><i class="fa fa-check"></i><b>6.2.2</b> Advantages</a></li>
+<li class="chapter" data-level="6.2.3" data-path="ice.html"><a href="ice.html#disadvantages-3"><i class="fa fa-check"></i><b>6.2.3</b> Disadvantages</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="ale.html"><a href="ale.html"><i class="fa fa-check"></i><b>6.3</b> Accumulated Local Effects (ALE) Plot</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="ale.html"><a href="ale.html#motivation-and-intuition"><i class="fa fa-check"></i><b>6.3.1</b> Motivation and Intuition</a></li>
+<li class="chapter" data-level="6.3.2" data-path="ale.html"><a href="ale.html#theory-1"><i class="fa fa-check"></i><b>6.3.2</b> Theory</a></li>
+<li class="chapter" data-level="6.3.3" data-path="ale.html"><a href="ale.html#estimation"><i class="fa fa-check"></i><b>6.3.3</b> Estimation</a></li>
+<li class="chapter" data-level="6.3.4" data-path="ale.html"><a href="ale.html#examples-1"><i class="fa fa-check"></i><b>6.3.4</b> Examples</a></li>
+<li class="chapter" data-level="6.3.5" data-path="ale.html"><a href="ale.html#advantages-4"><i class="fa fa-check"></i><b>6.3.5</b> Advantages</a></li>
+<li class="chapter" data-level="6.3.6" data-path="ale.html"><a href="ale.html#disadvantages-4"><i class="fa fa-check"></i><b>6.3.6</b> Disadvantages</a></li>
+<li class="chapter" data-level="6.3.7" data-path="ale.html"><a href="ale.html#implementation-and-alternatives"><i class="fa fa-check"></i><b>6.3.7</b> Implementation and Alternatives</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="interaction.html"><a href="interaction.html"><i class="fa fa-check"></i><b>6.4</b> Feature Interaction</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="interaction.html"><a href="interaction.html#feature-interaction"><i class="fa fa-check"></i><b>6.4.1</b> Feature Interaction?</a></li>
+<li class="chapter" data-level="6.4.2" data-path="interaction.html"><a href="interaction.html#theory-friedmans-h-statistic"><i class="fa fa-check"></i><b>6.4.2</b> Theory: Friedman’s H-statistic</a></li>
+<li class="chapter" data-level="6.4.3" data-path="interaction.html"><a href="interaction.html#examples-2"><i class="fa fa-check"></i><b>6.4.3</b> Examples</a></li>
+<li class="chapter" data-level="6.4.4" data-path="interaction.html"><a href="interaction.html#advantages-5"><i class="fa fa-check"></i><b>6.4.4</b> Advantages</a></li>
+<li class="chapter" data-level="6.4.5" data-path="interaction.html"><a href="interaction.html#disadvantages-5"><i class="fa fa-check"></i><b>6.4.5</b> Disadvantages</a></li>
+<li class="chapter" data-level="6.4.6" data-path="interaction.html"><a href="interaction.html#implementations"><i class="fa fa-check"></i><b>6.4.6</b> Implementations</a></li>
+<li class="chapter" data-level="6.4.7" data-path="interaction.html"><a href="interaction.html#alternatives"><i class="fa fa-check"></i><b>6.4.7</b> Alternatives</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="feature-importance.html"><a href="feature-importance.html"><i class="fa fa-check"></i><b>6.5</b> Feature Importance</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="feature-importance.html"><a href="feature-importance.html#the-theory"><i class="fa fa-check"></i><b>6.5.1</b> The Theory</a></li>
+<li class="chapter" data-level="6.5.2" data-path="feature-importance.html"><a href="feature-importance.html#example-and-interpretation"><i class="fa fa-check"></i><b>6.5.2</b> Example and Interpretation</a></li>
+<li class="chapter" data-level="6.5.3" data-path="feature-importance.html"><a href="feature-importance.html#advantages-6"><i class="fa fa-check"></i><b>6.5.3</b> Advantages</a></li>
+<li class="chapter" data-level="6.5.4" data-path="feature-importance.html"><a href="feature-importance.html#disadvantages-6"><i class="fa fa-check"></i><b>6.5.4</b> Disadvantages</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="global.html"><a href="global.html"><i class="fa fa-check"></i><b>6.6</b> Global Surrogate Models</a><ul>
+<li class="chapter" data-level="6.6.1" data-path="global.html"><a href="global.html#theory-2"><i class="fa fa-check"></i><b>6.6.1</b> Theory</a></li>
+<li class="chapter" data-level="6.6.2" data-path="global.html"><a href="global.html#example-3"><i class="fa fa-check"></i><b>6.6.2</b> Example</a></li>
+<li class="chapter" data-level="6.6.3" data-path="global.html"><a href="global.html#advantages-7"><i class="fa fa-check"></i><b>6.6.3</b> Advantages</a></li>
+<li class="chapter" data-level="6.6.4" data-path="global.html"><a href="global.html#disadvantages-7"><i class="fa fa-check"></i><b>6.6.4</b> Disadvantages</a></li>
+</ul></li>
+<li class="chapter" data-level="6.7" data-path="lime.html"><a href="lime.html"><i class="fa fa-check"></i><b>6.7</b> Local Surrogate Models (LIME)</a><ul>
+<li class="chapter" data-level="6.7.1" data-path="lime.html"><a href="lime.html#lime-for-tabular-data"><i class="fa fa-check"></i><b>6.7.1</b> LIME for Tabular Data</a></li>
+<li class="chapter" data-level="6.7.2" data-path="lime.html"><a href="lime.html#lime-for-text"><i class="fa fa-check"></i><b>6.7.2</b> LIME for Text</a></li>
+<li class="chapter" data-level="6.7.3" data-path="lime.html"><a href="lime.html#images-lime"><i class="fa fa-check"></i><b>6.7.3</b> LIME for Images</a></li>
+</ul></li>
+<li class="chapter" data-level="6.8" data-path="shapley.html"><a href="shapley.html"><i class="fa fa-check"></i><b>6.8</b> Shapley Value Explanations</a><ul>
+<li class="chapter" data-level="6.8.1" data-path="shapley.html"><a href="shapley.html#the-general-idea"><i class="fa fa-check"></i><b>6.8.1</b> The general idea</a></li>
+<li class="chapter" data-level="6.8.2" data-path="shapley.html"><a href="shapley.html#examples-and-interpretation"><i class="fa fa-check"></i><b>6.8.2</b> Examples and Interpretation</a></li>
+<li class="chapter" data-level="6.8.3" data-path="shapley.html"><a href="shapley.html#the-shapley-value-in-detail"><i class="fa fa-check"></i><b>6.8.3</b> The Shapley Value in Detail</a></li>
+<li class="chapter" data-level="6.8.4" data-path="shapley.html"><a href="shapley.html#advantages-8"><i class="fa fa-check"></i><b>6.8.4</b> Advantages</a></li>
+<li class="chapter" data-level="6.8.5" data-path="shapley.html"><a href="shapley.html#disadvantages-8"><i class="fa fa-check"></i><b>6.8.5</b> Disadvantages</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="example-based.html"><a href="example-based.html"><i class="fa fa-check"></i><b>7</b> Example-based Explanations</a><ul>
+<li class="chapter" data-level="7.1" data-path="counterfactual.html"><a href="counterfactual.html"><i class="fa fa-check"></i><b>7.1</b> Counterfactual explanations</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="counterfactual.html"><a href="counterfactual.html#generating-counterfactual-explanations"><i class="fa fa-check"></i><b>7.1.1</b> Generating counterfactual explanations</a></li>
+<li class="chapter" data-level="7.1.2" data-path="counterfactual.html"><a href="counterfactual.html#examples-3"><i class="fa fa-check"></i><b>7.1.2</b> Examples</a></li>
+<li class="chapter" data-level="7.1.3" data-path="counterfactual.html"><a href="counterfactual.html#advantages-9"><i class="fa fa-check"></i><b>7.1.3</b> Advantages</a></li>
+<li class="chapter" data-level="7.1.4" data-path="counterfactual.html"><a href="counterfactual.html#disadvantages-9"><i class="fa fa-check"></i><b>7.1.4</b> Disadvantages</a></li>
+<li class="chapter" data-level="7.1.5" data-path="counterfactual.html"><a href="counterfactual.html#example-software"><i class="fa fa-check"></i><b>7.1.5</b> Software and Alternatives</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="adversarial.html"><a href="adversarial.html"><i class="fa fa-check"></i><b>7.2</b> Adversarial Examples</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="adversarial.html"><a href="adversarial.html#methods-and-examples"><i class="fa fa-check"></i><b>7.2.1</b> Methods and Examples</a></li>
+<li class="chapter" data-level="7.2.2" data-path="adversarial.html"><a href="adversarial.html#the-cybersecurity-perspective"><i class="fa fa-check"></i><b>7.2.2</b> The Cybersecurity Perspective</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="proto.html"><a href="proto.html"><i class="fa fa-check"></i><b>7.3</b> Prototypes and Criticisms</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="proto.html"><a href="proto.html#theory-3"><i class="fa fa-check"></i><b>7.3.1</b> Theory</a></li>
+<li class="chapter" data-level="7.3.2" data-path="proto.html"><a href="proto.html#examples-4"><i class="fa fa-check"></i><b>7.3.2</b> Examples</a></li>
+<li class="chapter" data-level="7.3.3" data-path="proto.html"><a href="proto.html#advantages-10"><i class="fa fa-check"></i><b>7.3.3</b> Advantages</a></li>
+<li class="chapter" data-level="7.3.4" data-path="proto.html"><a href="proto.html#disadvantages-10"><i class="fa fa-check"></i><b>7.3.4</b> Disadvantages</a></li>
+<li class="chapter" data-level="7.3.5" data-path="proto.html"><a href="proto.html#code-and-alternatives"><i class="fa fa-check"></i><b>7.3.5</b> Code and Alternatives</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="influential.html"><a href="influential.html"><i class="fa fa-check"></i><b>7.4</b> Influential Instances</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="influential.html"><a href="influential.html#deletion-diagnostics"><i class="fa fa-check"></i><b>7.4.1</b> Deletion Diagnostics</a></li>
+<li class="chapter" data-level="7.4.2" data-path="influential.html"><a href="influential.html#influence-functions"><i class="fa fa-check"></i><b>7.4.2</b> Influence Functions</a></li>
+<li class="chapter" data-level="7.4.3" data-path="influential.html"><a href="influential.html#advantages-of-identifying-influential-instances"><i class="fa fa-check"></i><b>7.4.3</b> Advantages of Identifying Influential Instances</a></li>
+<li class="chapter" data-level="7.4.4" data-path="influential.html"><a href="influential.html#disadvantages-of-identifying-influential-instances"><i class="fa fa-check"></i><b>7.4.4</b> Disadvantages of Identifying Influential Instances</a></li>
+<li class="chapter" data-level="7.4.5" data-path="influential.html"><a href="influential.html#software-and-alternatives-1"><i class="fa fa-check"></i><b>7.4.5</b> Software and Alternatives</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="future.html"><a href="future.html"><i class="fa fa-check"></i><b>8</b> A Look into the Crystal Ball</a><ul>
+<li class="chapter" data-level="8.1" data-path="the-future-of-machine-learning.html"><a href="the-future-of-machine-learning.html"><i class="fa fa-check"></i><b>8.1</b> The Future of Machine Learning</a></li>
+<li class="chapter" data-level="8.2" data-path="the-future-of-interpretability.html"><a href="the-future-of-interpretability.html"><i class="fa fa-check"></i><b>8.2</b> The Future of Interpretability</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="contribute.html"><a href="contribute.html"><i class="fa fa-check"></i><b>9</b> Contribute</a></li>
+<li class="chapter" data-level="10" data-path="citation.html"><a href="citation.html"><i class="fa fa-check"></i><b>10</b> Citation</a></li>
+<li class="chapter" data-level="11" data-path="acknowledgements.html"><a href="acknowledgements.html"><i class="fa fa-check"></i><b>11</b> Acknowledgements</a></li>
+<li class="divider"></li>
+<li><a href="https://bookdown.org" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Interpretable Machine Learning</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="interpretability-importance" class="section level2">
+<h2><span class="header-section-number">3.1</span> The Importance of Interpretability</h2>
+<p>If a machine learning model performs well, <strong>why not just trust the model</strong> and ignore <strong>why</strong> it made a certain decision?
+“The problem is that a single metric, such as classification accuracy, is an incomplete description of most real-world tasks.” (Doshi-Velez and Kim 2017 <a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>)</p>
+<p>Let’s dive deeper into the reasons why interpretability is so important.
+In predictive modelling, you have to make a trade-off:
+Do you simply want to know <strong>what</strong> is predicted?
+For example the probability that a client will churn or how effective some medication will be for a patient.
+Or do you want to know <strong>why</strong> the prediction was made and possibly paying for the interpretability with a drop in accuracy?
+In some cases you don’t care why a decision was made, only the assurance that the predictive performance was good on a test dataset is enough.
+But in other cases, knowing the ‘why’ can help you understand more about the problem, the data and why a model might fail.
+Some models might not need explanations, because they are used in a low risk environment, meaning a mistake has no severe consequences, (e.g. a movie recommender system) or the method has already been extensively studied and evaluated (e.g. optical character recognition).
+The necessity for interpretability comes from an incompleteness in the problem formalisation (Doshi-Velez and Kim 2017), meaning that for certain problems or tasks it is not enough to get the answer (the <strong>what</strong>).
+The model also has to give an explanation how it came to the answer (the <strong>why</strong>), because a correct prediction only partially solves your original problem.
+The following reasons drive the demand for interpretability and explanations (Doshi-Velez and Kim 2017 and Miller 2017)
+<strong>Human curiosity and learning</strong>: Humans have a mental model of their environment, which gets updated when something unexpected happens.
+This update is done by finding an explanation for the unexpected event.
+For example, a human feels unexpectedly sick and asks himself: “Why do I feel so sick?”.
+He learns that he becomes sick every time he eats those red berries.
+He updates his mental model and decides that the berries caused the sickness and therefore should be avoided.
+Curiosity and learning is important for any machine learning model used in the research context, where scientific findings stay completely hidden, when the machine learning model only gives predictions without explanations.
+To facilitate learning and satisfy curiosity about why certain predictions or behaviours are created by machines, interpretability and explanations are crucial.
+Of course, humans don’t need an explanation for everything that happens.
+Most people are okay with not understanding how a computer works.
+The emphasis of this point is more on unexpected events, that makes us curious.
+Like: Why is my computer shutting down unexpectedly?</p>
+Closely related to learning is the human desire to <strong>find meaning in the world</strong>.
+We want to reconcile contradictions or inconsistencies between elements of our knowledge structures.
+“Why did my dog bite me, even though it has never done so before?” a human might ask himself.
+There is a contraction between the knowledge about the dog’s past behaviour and the newly made, unpleasant experience of the bite.
+The explanation of the vet reconciles the dog holders contradiction:
+“The dog was under stress and did bite, dogs are animals and this can happen.”
+The more a machine’s decision affects a human’s life, the more important it will be for the machine to explain its behaviour.
+When a machine learning model rejects a loan application, this could be quite unexpected for the applicant.
+He can only reconcile this inconsistency between expectation and reality by having some form of explanation.
+The explanations don’t actually have to fully explain the situation, but should address a main cause.
+Another example is algorithmic product recommendation.
+Personally, I always reflect on why certain products or movies have been recommended to me algorithmically.
+Often it is quite clear:
+The advertising is following me on the Internet because I have bought a washing machine recently, and I know that I will be followed by washing machine advertisements the next days.
+Yes, it makes sense to suggest gloves, when I already have a winter hat in my shopping basket.
+The algorithm recommended this movie, because users that liked other movies that I also liked, enjoyed the recommended movie.
+Increasingly, Internet companies are adding explanations to their recommendations.
+A good example is the Amazon product recommendation based on frequently bought product combinations:
+<div class="figure"><span id="fig:amazon-recommendation"></span>
+<img src="images/amazon-freq-bought-together.png" alt="Recommended products when buying some paint from [Amazon](https://www.amazon.com/Colore-Acrylic-Paint-Set-12/dp/B014UMGA5W/). Visited on December 5th 2012."  />
+<p class="caption">
+FIGURE 3.1: Recommended products when buying some paint from <a href="https://www.amazon.com/Colore-Acrylic-Paint-Set-12/dp/B014UMGA5W/">Amazon</a>. Visited on December 5th 2012.
+</p>
+</div>
+<p>There is a shift in many scientific disciplines from qualitative to quantitative methods (e.g. sociology, psychology), and also towards machine learning (biology, genomics).
+The <strong>goal of science</strong> is to gain knowledge, but many problems can only be solved with big datasets and black box machine learning models.
+The model itself becomes a source of knowledge, instead of the data.
+Interpretability allows to tap into this additional knowledge captured by the model.</p>
+<p>Machine learning models are taking over real world tasks, that demand <strong>safety measures</strong> and testing.
+Imagine a self-driving car automatically detects cyclists, which is as desired.
+You want to be 100% sure that the abstraction the system learned will be fail-safe, because running over cyclists is quite bad.
+An explanation might reveal that the most important feature learned is to recognise the two wheels of a bike and this explanation helps you to think about edge cases like bikes with side bags, that partially cover the wheels.</p>
+<p>By default most machine learning models pick up biases from the training data.
+This can turn your machine learning models into racists which discriminate against protected groups.
+Interpretability is a useful debugging tool to <strong>detect bias</strong> in machine learning models.
+It might happen that the machine learning model you trained for automatically approving or rejecting loan applications discriminates against some minority.
+Your main goal is to give out loans to people that will pay them back eventually.
+In this case, the incompleteness in the problem formulation lies in the fact that you not only want to minimise loan defaults, but you are also required to not discriminate based on certain demographics.
+This is an additional constraint, which is part of your problem formulation (Handing out loans in a low-risk and compliant way), which is not captured by the loss function, which the machine learning model optimises.</p>
+<p>The process of integrating machines and algorithms into our daily lives demands interpretability to increase <strong>social acceptance</strong>.
+People attribute beliefs, desires, intentions and so on to objects.
+In a famous experiment, Heider and Simmel (1944) <a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a> showed the participants videos of shapes, where a circle opened a door to enter a “room” (which was simply a rectangle).
+The participants described the actions of the shapes as they would describe the actions of a human agent, attributing intentions and even emotions and personality traits to the shapes.
+Robots are a good example, like my vacuum cleaner, which I named ‘Doge’.
+When Doge gets stuck, I think:
+“Doge wants to continue cleaning, but asks me for help because it got stuck.”
+Later, when Doge finished cleaning and searches the home base to recharge I think:
+“Doge has the desire to recharge and intents to find the home base”.
+Also I attribute personality traits:
+“Doge is a bit dumb, but in a cute way”.
+These are my thoughts, especially when I find out that Doge threw over some plant while cleaning the house dutifully.
+A machine or algorithm explaining its prediction will receive more acceptance.
+See also the <a href="explanation.html#explanation">chapter about explanations</a>, which argues that explanations are a social process.</p>
+<p>Explanations are used to <strong>manage social interactions</strong>.
+Through the creation of a shared meaning of something, the explainer influences the actions, emotions and beliefs of the receiver of the explanation.
+In order to allow a machine to interact with us, it might need to shape our emotions and beliefs.
+Machines have to “persuade” us, so that we believe that they can achieve their intended goal.
+I would not completely accept my robot vacuum cleaner if it would not explain its behaviour to some degree.
+The vacuum cleaner creates a shared meaning of, for example, an “accident” (like getting stuck on the bathroom carpet … again) by explaining that it got stuck, instead of simply stopping to work without comment.
+Interestingly, there can be a misalignment between the goal of the explaining machine, which is generating trust, and the goal of the recipient, which is to understand the prediction or behaviour.
+Maybe the correct explanation why Doge got stuck could be that the battery was very low, additionally one of the wheels is not working properly and on top of that there is a bug that causes the robot to re-try to go to the same spot over and over again, even though there was some obstacle in the way.
+These reasons (and some more) caused the robot to get stuck, but it only explained that there was something in the way, and this was enough for me to trust its behaviour, and to get a shared meaning of that accident, which I can share with my girlfriend.
+(“By the way, Doge got stuck again in the bathroom, we have to remove the carpets before we let it clean”).
+The example of the robot getting stuck on the carpet might not even require an explanation, because I can explain it to myself by observing that Doge can’t move on this carpet mess.
+But there are other situations, which are less obvious, like a full dirt bag.</p>
+<div class="figure"><span id="fig:doge-stuck"></span>
+<img src="images/doge-stuck.png" alt="Doge, my vacuum cleaner got stuck. As an explanation for the accident, Doge told me that it needs to be on a flat surface."  />
+<p class="caption">
+FIGURE 3.2: Doge, my vacuum cleaner got stuck. As an explanation for the accident, Doge told me that it needs to be on a flat surface.
+</p>
+</div>
+<p>Only with interpretability can machine learning algorithms be <strong>debugged and audited</strong>.
+So even in low risk environments, like movie recommendation, interpretability in the research and development stage as well as after deployment is valuable.
+Because later, when some model is used in a product, things can go wrong.
+Having an interpretation for a faulty prediction helps to understand the cause of the fault.
+It delivers a direction for how to fix the system.
+Consider an example of a husky versus wolf classifier, that misclassifies some huskies as wolfs.
+Using interpretable machine learning methods, you would find out that the misclassification happened due to the snow on the image.
+The classifier learned to use snow as a feature for classifying images as wolfs, which might make sense in terms of separating features in the training dataset, but not in the real world use.</p>
+<p>If you can ensure that the machine learning model can explain decisions, the following traits can also be checked more easily (Doshi-Velez and Kim 2017):</p>
+<ul>
+<li>Fairness: Making sure the predictions are unbiased and not discriminating against protected groups (implicit or explicit).
+An interpretable model can tell you why it decided that a certain person is not worthy of a credit and for a human it becomes easier to judge if the decision was based on a learned demographic (e.g. racial) bias.</li>
+<li>Privacy: Ensuring that sensitive information in the data is protected.</li>
+<li>Reliability or Robustness: Test that small changes in the input don’t lead to big changes in the prediction.</li>
+<li>Causality: Check if only causal relationships are picked up. Meaning a predicted change in a decision due to arbitrary changes in the input values are also happening in reality.</li>
+<li>Trust: It is easier for humans to trust a system that explains its decisions compared to a black box.</li>
+</ul>
+<p><strong>When we don’t need interpretability.</strong></p>
+<p>The following scenarios illustrate when we don’t need or even don’t want interpretability for machine learning models.</p>
+<p>Interpretability is not required if the model <strong>has no significant impact</strong>.
+Imagine someone named Mike working on a machine learning side project to predict where his friends will go to for their next vacation based on Facebook data.
+Mike just likes it to surprise his friends with educated guesses where they’re going on vacation.
+There is no real problem if the model is wrong (just a little embarrassment for Mike), it is also not problematic if Mike can’t explain the output of his model.
+It’s perfectly fine not to have any interpretability.
+The situation would change when Mike starts building a company around these vacation destination predictions.
+If the model is wrong, the company will lose money, or the model could refuse services to people based on some learned racial bias.
+As soon as the model has a significant impact, either financially or socially, the interpretability becomes relevant.</p>
+<p>Interpretability is not required when the <strong>problem is well-studied</strong>.
+Some applications have been sufficiently well-studied so that there is enough practical experience with the model and problems with the model have been solved over time.
+A good example is a machine learning model for optical character recognition that processes images of envelopes and extracts the addresses.
+There are years of experience in using these systems and it is clear that they work.
+Also we are not really interested in gaining additional insights about the task at hand.</p>
+<p>Interpretability might enable <strong>gaming the system</strong>.
+Problems with users fooling a system result from a mismatch in the objectives of the creator and the user of a model.
+Credit scoring is one such system because the banks want to ensure to give loans to applicants who are likely to return it and the applicants have the goal to get the loan even if the bank has a different opinion.
+This mismatch between objectives introduces incentives for the applicants to game the system to increase their chances of getting a loan.
+If an applicant knows that having more than two credit cards affects the score negatively, he simply returns his third credit card to improve his score, and simply gets a new card after the loan has been approved.
+While his score improved, the true probability of repaying the loan remained the same.
+The system can only be gamed if the inputs are proxies for another feature, but are not the cause of the outcome.
+Whenever possible, proxy features should be avoided, as they are often the reason for defective models.
+For example, Google developed a system called Google Flu Trends for predicting flu outbreaks that correlates Google searches with flu outbreaks - and it performed rather poorly so far.
+The distribution of searches changed and Google Flu Trends missed many flu outbreaks.
+Google searches are not known to cause the flu and people searching for symptoms like “fever” merely imply a correlation.
+Ideally, models would only use causal features, because then they are not gameable and a lot of issues with biases would not occur.</p>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="4">
+<li id="fn4"><p>Doshi-Velez, Finale, and Been Kim. 2017. “Towards A Rigorous Science of Interpretable Machine Learning,” no. Ml: 1–13. <a href="http://arxiv.org/abs/1702.08608" class="uri">http://arxiv.org/abs/1702.08608</a>.<a href="interpretability-importance.html#fnref4" class="footnote-back">↩</a></p></li>
+<li id="fn5"><p>Heider, Fritz, and Marianne Simmel. 1944. “An Experimental Study of Apparent Behavior.” The American Journal of Psychology 57 (2). JSTOR: 243–59.<a href="interpretability-importance.html#fnref5" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="interpretability.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="criteria-for-interpretability-methods.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/christophM/interpretable-ml-book/edit/master/02-interpretability.Rmd",
+"text": "Edit"
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
